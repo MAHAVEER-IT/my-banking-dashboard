@@ -1,234 +1,177 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Banking Dashboard</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: "Poppins", sans-serif;
-    }
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Banking Analytics Dashboard</title>
+<style>
     body {
-      display: flex;
-      background-color: #f5f7fa;
-      color: #333;
-      min-height: 100vh;
+        font-family: Arial, sans-serif;
+        background-color: #f5f6fa;
+        margin: 0;
+        padding: 0;
     }
-
-    /* Sidebar */
-    .sidebar {
-      width: 250px;
-      background-color: #0b3d91;
-      color: #fff;
-      display: flex;
-      flex-direction: column;
-      padding: 20px;
+    .container {
+        max-width: 500px;
+        margin: 50px auto;
+        padding: 20px;
+        background: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px #ccc;
     }
-
-    .sidebar h2 {
-      font-size: 1.5em;
-      margin-bottom: 30px;
-      text-align: center;
+    h2 {
+        text-align: center;
+        color: #2f3640;
     }
-
-    .sidebar a {
-      color: #fff;
-      text-decoration: none;
-      display: block;
-      padding: 12px 15px;
-      border-radius: 8px;
-      margin-bottom: 10px;
-      transition: background 0.3s;
+    label {
+        display: block;
+        margin-top: 15px;
+        font-weight: bold;
     }
-
-    .sidebar a:hover {
-      background-color: #1e56b2;
+    input, select, button {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
     }
-
-    /* Main section */
-    .main {
-      flex: 1;
-      padding: 25px;
+    button {
+        background-color: #0097e6;
+        color: white;
+        border: none;
+        cursor: pointer;
+        margin-top: 20px;
     }
-
-    /* Top Bar */
-    .topbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 25px;
+    button:hover {
+        background-color: #40739e;
     }
-
-    .topbar h1 {
-      font-size: 1.6em;
-      color: #0b3d91;
-    }
-
-    .user-info {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .user-info img {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      object-fit: cover;
-    }
-
-    /* Cards section */
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 20px;
-      margin-bottom: 30px;
-    }
-
-    .card {
-      background: #fff;
-      border-radius: 12px;
-      padding: 20px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    .card h3 {
-      color: #0b3d91;
-      margin-bottom: 10px;
-    }
-
-    .balance {
-      font-size: 2em;
-      font-weight: 600;
-    }
-
-    /* Transaction Table */
-    .transactions {
-      background: #fff;
-      border-radius: 12px;
-      padding: 20px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    .transactions h3 {
-      color: #0b3d91;
-      margin-bottom: 15px;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    th, td {
-      padding: 12px 10px;
-      border-bottom: 1px solid #ddd;
-      text-align: left;
-    }
-
-    th {
-      color: #0b3d91;
-    }
-
-    .status.credit {
-      color: green;
-      font-weight: 600;
-    }
-
-    .status.debit {
-      color: red;
-      font-weight: 600;
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-      .sidebar {
+    .hidden {
         display: none;
-      }
-      .main {
-        padding: 15px;
-      }
     }
-  </style>
+    .saved-data {
+        margin-top: 20px;
+        background: #f1f2f6;
+        padding: 15px;
+        border-radius: 5px;
+    }
+</style>
 </head>
 <body>
-  <aside class="sidebar">
-    <h2>MyBank v1.4.2</h2>
-    <a href="#">🏠 Dashboard</a>
-    <a href="#">💰 Accounts</a>
-    <a href="#">📈 Analytics</a>
-    <a href="#">💳 Cards</a>
-    <a href="#">⚙️ Settings</a>
-    <a href="#">🚪 Logout</a>
-  </aside>
+<div class="container">
 
-  <main class="main">
-    <div class="topbar">
-      <h1>Welcome Back, Mahaveer</h1>
-      <div class="user-info">
-        <span>Mahaveer K</span>
-        <img src="https://i.pravatar.cc/150?img=3" alt="User" />
-      </div>
+    <!-- Login Form -->
+    <div id="loginDiv">
+        <h2>Login</h2>
+        <form id="loginForm">
+            <label for="accountId">Account ID</label>
+            <input type="text" id="accountId" name="accountId" required>
+            <button type="submit">Login</button>
+        </form>
     </div>
 
-    <div class="cards">
-      <div class="card">
-        <h3>Total Balance</h3>
-        <p class="balance">₹1,24,560</p>
-      </div>
-      <div class="card">
-        <h3>Income (This Month)</h3>
-        <p class="balance" style="color:green;">+₹42,300</p>
-      </div>
-      <div class="card">
-        <h3>Expenses (This Month)</h3>
-        <p class="balance" style="color:red;">-₹18,700</p>
-      </div>
-    </div>
+    <!-- Analytics Form -->
+    <div id="analyticsDiv" class="hidden">
+        <h2>Banking Analytics Input</h2>
+        <form id="analyticsForm">
+            <label for="transactionType">Transaction Type</label>
+            <select id="transactionType" name="transactionType" required>
+                <option value="">--Select--</option>
+                <option value="deposit">Deposit</option>
+                <option value="withdrawal">Withdrawal</option>
+                <option value="transfer">Transfer</option>
+            </select>
 
-    <div class="transactions">
-      <h3>Recent Transactions</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Description</th>
-            <th>Amount</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Oct 14, 2025</td>
-            <td>Amazon Purchase</td>
-            <td>₹2,499</td>
-            <td class="status debit">Debit</td>
-          </tr>
-          <tr>
-            <td>Oct 12, 2025</td>
-            <td>Salary Credit</td>
-            <td>₹45,000</td>
-            <td class="status credit">Credit</td>
-          </tr>
-          <tr>
-            <td>Oct 09, 2025</td>
-            <td>Electricity Bill</td>
-            <td>₹1,800</td>
-            <td class="status debit">Debit</td>
-          </tr>
-          <tr>
-            <td>Oct 05, 2025</td>
-            <td>UPI Transfer</td>
-            <td>₹3,000</td>
-            <td class="status debit">Debit</td>
-          </tr>
-        </tbody>
-      </table>
+            <label for="startDate">Start Date</label>
+            <input type="date" id="startDate" name="startDate" required>
+
+            <label for="endDate">End Date</label>
+            <input type="date" id="endDate" name="endDate" required>
+
+            <button type="submit">Add Details</button>
+        </form>
+
+        <div id="result" class="saved-data"></div>
+        <button id="logoutBtn" style="background-color:#e84118;">Logout</button>
     </div>
-  </main>
+</div>
+
+<script>
+const loginDiv = document.getElementById('loginDiv');
+const analyticsDiv = document.getElementById('analyticsDiv');
+const loginForm = document.getElementById('loginForm');
+const analyticsForm = document.getElementById('analyticsForm');
+const resultDiv = document.getElementById('result');
+const logoutBtn = document.getElementById('logoutBtn');
+
+// Check if user is already logged in
+window.onload = function() {
+    const accountId = localStorage.getItem('loggedInAccount');
+    if(accountId) {
+        showAnalyticsForm(accountId);
+    }
+}
+
+// Login
+loginForm.addEventListener('submit', function(e){
+    e.preventDefault();
+    const accountId = document.getElementById('accountId').value;
+    localStorage.setItem('loggedInAccount', accountId);
+
+    // Initialize user data if not exists
+    if(!localStorage.getItem(analytics_${accountId})) {
+        localStorage.setItem(analytics_${accountId}, JSON.stringify([]));
+    }
+
+    showAnalyticsForm(accountId);
+});
+
+// Show analytics form
+function showAnalyticsForm(accountId) {
+    loginDiv.classList.add('hidden');
+    analyticsDiv.classList.remove('hidden');
+    displayAnalytics(accountId);
+}
+
+// Add analytics data
+analyticsForm.addEventListener('submit', function(e){
+    e.preventDefault();
+    const accountId = localStorage.getItem('loggedInAccount');
+
+    const data = {
+        transactionType: document.getElementById('transactionType').value,
+        startDate: document.getElementById('startDate').value,
+        endDate: document.getElementById('endDate').value
+    };
+
+    let userAnalytics = JSON.parse(localStorage.getItem(analytics_${accountId}));
+    userAnalytics.push(data);
+    localStorage.setItem(analytics_${accountId}, JSON.stringify(userAnalytics));
+
+    displayAnalytics(accountId);
+    analyticsForm.reset();
+});
+
+// Display analytics
+function displayAnalytics(accountId){
+    let userAnalytics = JSON.parse(localStorage.getItem(analytics_${accountId}));
+    if(userAnalytics.length === 0){
+        resultDiv.innerHTML = '<p>No data added yet.</p>';
+        return;
+    }
+    let html = <h3>Saved Analytics for Account ID: ${accountId}</h3><ul>;
+    userAnalytics.forEach((item, index)=>{
+        html += <li><strong>Transaction:</strong> ${item.transactionType}, <strong>Start:</strong> ${item.startDate}, <strong>End:</strong> ${item.endDate}</li>;
+    });
+    html += '</ul>';
+    resultDiv.innerHTML = html;
+}
+
+// Logout
+logoutBtn.addEventListener('click', function(){
+    localStorage.removeItem('loggedInAccount');
+    loginDiv.classList.remove('hidden');
+    analyticsDiv.classList.add('hidden');
+});
+</script>
 </body>
 </html>
