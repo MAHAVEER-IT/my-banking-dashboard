@@ -1,177 +1,421 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Banking Analytics Dashboard v1.0</title>
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #f5f6fa;
-        margin: 0;
-        padding: 0;
-    }
-    .container {
-        max-width: 500px;
-        margin: 50px auto;
-        padding: 20px;
-        background: #ffffff;
-        border-radius: 10px;
-        box-shadow: 0px 0px 10px #ccc;
-    }
-    h2 {
-        text-align: center;
-        color: #2f3640;
-    }
-    label {
-        display: block;
-        margin-top: 15px;
-        font-weight: bold;
-    }
-    input, select, button {
-        width: 100%;
-        padding: 10px;
-        margin-top: 5px;
-        border-radius: 5px;
-        border: 1px solid #ccc;
-    }
-    button {
-        background-color: #0097e6;
-        color: white;
-        border: none;
-        cursor: pointer;
-        margin-top: 20px;
-    }
-    button:hover {
-        background-color: #40739e;
-    }
-    .hidden {
-        display: none;
-    }
-    .saved-data {
-        margin-top: 20px;
-        background: #f1f2f6;
-        padding: 15px;
-        border-radius: 5px;
-    }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus Bank Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px 35px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .user-details h3 {
+            font-size: 16px;
+            color: #2d3748;
+        }
+
+        .user-details p {
+            font-size: 13px;
+            color: #718096;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .balance-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .card-title {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .balance-amount {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .balance-change {
+            display: inline-block;
+            padding: 8px 15px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            font-size: 14px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .stat-item {
+            padding: 20px;
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 15px;
+            border-left: 4px solid #667eea;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: #718096;
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2d3748;
+        }
+
+        .transactions {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #2d3748;
+        }
+
+        .view-all {
+            color: #667eea;
+            font-size: 14px;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .transaction-item {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            background: #f7fafc;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .transaction-item:hover {
+            background: #edf2f7;
+            transform: translateX(5px);
+        }
+
+        .transaction-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-right: 20px;
+        }
+
+        .icon-income {
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+        }
+
+        .icon-expense {
+            background: linear-gradient(135deg, #f56565 0%, #c53030 100%);
+        }
+
+        .transaction-details {
+            flex: 1;
+        }
+
+        .transaction-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 5px;
+        }
+
+        .transaction-date {
+            font-size: 13px;
+            color: #718096;
+        }
+
+        .transaction-amount {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .amount-positive {
+            color: #48bb78;
+        }
+
+        .amount-negative {
+            color: #f56565;
+        }
+
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .action-btn {
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .chart-placeholder {
+            height: 200px;
+            background: linear-gradient(to top, rgba(102, 126, 234, 0.1) 0%, transparent 100%);
+            border-radius: 15px;
+            display: flex;
+            align-items: flex-end;
+            padding: 20px;
+            gap: 10px;
+        }
+
+        .chart-bar {
+            flex: 1;
+            background: linear-gradient(to top, #667eea 0%, #764ba2 100%);
+            border-radius: 8px 8px 0 0;
+            animation: growBar 1s ease-out;
+        }
+
+        @keyframes growBar {
+            from {
+                height: 0;
+            }
+        }
+
+        .chart-bar:nth-child(1) { height: 60%; }
+        .chart-bar:nth-child(2) { height: 80%; }
+        .chart-bar:nth-child(3) { height: 45%; }
+        .chart-bar:nth-child(4) { height: 90%; }
+        .chart-bar:nth-child(5) { height: 70%; }
+        .chart-bar:nth-child(6) { height: 100%; }
+        .chart-bar:nth-child(7) { height: 55%; }
+
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .balance-amount {
+                font-size: 36px;
+            }
+        }
+    </style>
 </head>
 <body>
-<div class="container">
+    <div class="container">
+        <header>
+            <div class="logo">NEXUS BANK</div>
+            <div class="user-info">
+                <div class="user-avatar">JD</div>
+                <div class="user-details">
+                    <h3>John Doe</h3>
+                    <p>Premium Account</p>
+                </div>
+            </div>
+        </header>
 
-    <!-- Login Form -->
-    <div id="loginDiv">
-        <h2>Login</h2>
-        <form id="loginForm">
-            <label for="accountId">Account ID</label>
-            <input type="text" id="accountId" name="accountId" required>
-            <button type="submit">Login</button>
-        </form>
+        <div class="dashboard-grid">
+            <div class="card balance-card">
+                <div class="card-title">Total Balance</div>
+                <div class="balance-amount">$45,678.90</div>
+                <span class="balance-change">↑ +12.5% this month</span>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Quick Stats</div>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-label">Income</div>
+                        <div class="stat-value">$12,450</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">Expenses</div>
+                        <div class="stat-value">$8,230</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Spending Overview</div>
+                <div class="chart-placeholder">
+                    <div class="chart-bar"></div>
+                    <div class="chart-bar"></div>
+                    <div class="chart-bar"></div>
+                    <div class="chart-bar"></div>
+                    <div class="chart-bar"></div>
+                    <div class="chart-bar"></div>
+                    <div class="chart-bar"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="transactions">
+            <div class="section-header">
+                <h2 class="section-title">Recent Transactions</h2>
+                <a href="#" class="view-all">View All →</a>
+            </div>
+
+            <div class="transaction-item">
+                <div class="transaction-icon icon-income">↓</div>
+                <div class="transaction-details">
+                    <div class="transaction-name">Salary Deposit</div>
+                    <div class="transaction-date">Oct 15, 2025</div>
+                </div>
+                <div class="transaction-amount amount-positive">+$5,500.00</div>
+            </div>
+
+            <div class="transaction-item">
+                <div class="transaction-icon icon-expense">↑</div>
+                <div class="transaction-details">
+                    <div class="transaction-name">Amazon Purchase</div>
+                    <div class="transaction-date">Oct 14, 2025</div>
+                </div>
+                <div class="transaction-amount amount-negative">-$89.99</div>
+            </div>
+
+            <div class="transaction-item">
+                <div class="transaction-icon icon-expense">↑</div>
+                <div class="transaction-details">
+                    <div class="transaction-name">Electricity Bill</div>
+                    <div class="transaction-date">Oct 13, 2025</div>
+                </div>
+                <div class="transaction-amount amount-negative">-$125.50</div>
+            </div>
+
+            <div class="transaction-item">
+                <div class="transaction-icon icon-income">↓</div>
+                <div class="transaction-details">
+                    <div class="transaction-name">Freelance Payment</div>
+                    <div class="transaction-date">Oct 12, 2025</div>
+                </div>
+                <div class="transaction-amount amount-positive">+$1,200.00</div>
+            </div>
+
+            <div class="transaction-item">
+                <div class="transaction-icon icon-expense">↑</div>
+                <div class="transaction-details">
+                    <div class="transaction-name">Restaurant - The Grill</div>
+                    <div class="transaction-date">Oct 11, 2025</div>
+                </div>
+                <div class="transaction-amount amount-negative">-$67.30</div>
+            </div>
+        </div>
+
+        <div class="quick-actions">
+            <button class="action-btn">Transfer Money</button>
+            <button class="action-btn">Pay Bills</button>
+            <button class="action-btn">Add Beneficiary</button>
+            <button class="action-btn">View Cards</button>
+        </div>
     </div>
-
-    <!-- Analytics Form -->
-    <div id="analyticsDiv" class="hidden">
-        <h2>Banking Analytics Input</h2>
-        <form id="analyticsForm">
-            <label for="transactionType">Transaction Type</label>
-            <select id="transactionType" name="transactionType" required>
-                <option value="">--Select--</option>
-                <option value="deposit">Deposit</option>
-                <option value="withdrawal">Withdrawal</option>
-                <option value="transfer">Transfer</option>
-            </select>
-
-            <label for="startDate">Start Date</label>
-            <input type="date" id="startDate" name="startDate" required>
-
-            <label for="endDate">End Date</label>
-            <input type="date" id="endDate" name="endDate" required>
-
-            <button type="submit">Add Details</button>
-        </form>
-
-        <div id="result" class="saved-data"></div>
-        <button id="logoutBtn" style="background-color:#e84118;">Logout</button>
-    </div>
-</div>
-
-<script>
-const loginDiv = document.getElementById('loginDiv');
-const analyticsDiv = document.getElementById('analyticsDiv');
-const loginForm = document.getElementById('loginForm');
-const analyticsForm = document.getElementById('analyticsForm');
-const resultDiv = document.getElementById('result');
-const logoutBtn = document.getElementById('logoutBtn');
-
-// Check if user is already logged in
-window.onload = function() {
-    const accountId = localStorage.getItem('loggedInAccount');
-    if(accountId) {
-        showAnalyticsForm(accountId);
-    }
-}
-
-// Login
-loginForm.addEventListener('submit', function(e){
-    e.preventDefault();
-    const accountId = document.getElementById('accountId').value;
-    localStorage.setItem('loggedInAccount', accountId);
-
-    // Initialize user data if not exists
-    if(!localStorage.getItem(analytics_${accountId})) {
-        localStorage.setItem(analytics_${accountId}, JSON.stringify([]));
-    }
-
-    showAnalyticsForm(accountId);
-});
-
-// Show analytics form
-function showAnalyticsForm(accountId) {
-    loginDiv.classList.add('hidden');
-    analyticsDiv.classList.remove('hidden');
-    displayAnalytics(accountId);
-}
-
-// Add analytics data
-analyticsForm.addEventListener('submit', function(e){
-    e.preventDefault();
-    const accountId = localStorage.getItem('loggedInAccount');
-
-    const data = {
-        transactionType: document.getElementById('transactionType').value,
-        startDate: document.getElementById('startDate').value,
-        endDate: document.getElementById('endDate').value
-    };
-
-    let userAnalytics = JSON.parse(localStorage.getItem(analytics_${accountId}));
-    userAnalytics.push(data);
-    localStorage.setItem(analytics_${accountId}, JSON.stringify(userAnalytics));
-
-    displayAnalytics(accountId);
-    analyticsForm.reset();
-});
-
-// Display analytics
-function displayAnalytics(accountId){
-    let userAnalytics = JSON.parse(localStorage.getItem(analytics_${accountId}));
-    if(userAnalytics.length === 0){
-        resultDiv.innerHTML = '<p>No data added yet.</p>';
-        return;
-    }
-    let html = <h3>Saved Analytics for Account ID: ${accountId}</h3><ul>;
-    userAnalytics.forEach((item, index)=>{
-        html += <li><strong>Transaction:</strong> ${item.transactionType}, <strong>Start:</strong> ${item.startDate}, <strong>End:</strong> ${item.endDate}</li>;
-    });
-    html += '</ul>';
-    resultDiv.innerHTML = html;
-}
-
-// Logout
-logoutBtn.addEventListener('click', function(){
-    localStorage.removeItem('loggedInAccount');
-    loginDiv.classList.remove('hidden');
-    analyticsDiv.classList.add('hidden');
-});
-</script>
 </body>
 </html>
